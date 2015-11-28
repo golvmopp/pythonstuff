@@ -1,6 +1,6 @@
 """
 To do:
-countdown when ball starts moving
+improve countdown
 pause menu
 exit button in start-menu
 options? like speed
@@ -9,7 +9,7 @@ make ball more pretty
 """
 
 
-import os, sys, random
+import os, sys, random, time
 import pygame
 from pygame.locals import *
 
@@ -17,6 +17,7 @@ BLACK = 0, 0, 0
 FPS = 60
 WIDTH = 640
 HEIGHT = 480
+sincepause = 0
 
 class Main:
     def __init__(self, size=(0, 0)):
@@ -29,15 +30,20 @@ class Main:
         self.clock = pygame.time.Clock()
 
     def game(self):
+        global sincepause
         # object and settings
         self.setup()
 
         # start menu
         self.start_menu()
 
+        self.countdown()
+
         # main event loop
         while 1:
             self.clock.tick(FPS)
+            if sincepause > 0:
+                sincepause -= 1
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -65,9 +71,11 @@ class Main:
         if ballpos[0] < 0:
             self.player_two.score += 1
             self.ball.set_pos((self.width/2, self.height/2))
+            self.countdown()
         if ballpos[0] >= self.width:
             self.player_one.score += 1
             self.ball.set_pos((self.width/2, self.height/2))
+            self.countdown()
 
     def update_screen(self):
         self.screen.blit(self.background, (0, 0))
@@ -96,6 +104,8 @@ class Main:
             sys.exit()
         if keys[K_f]:
             self.ball.x_speed = -self.ball.x_speed
+        if keys[K_SPACE]:
+            self.pause()
 
 
     def start_menu(self):
@@ -121,6 +131,32 @@ class Main:
                 if event.key == K_ESCAPE:
                     sys.exit()
 
+    def pause(self):
+        global sincepause
+        # can't pause if just unpaused #fullosning
+        if sincepause > 0:
+            return
+        sincepause = 60
+
+        font = pygame.font.Font(None, 72)
+        text = font.render("PAUSED", 1, (255, 255, 255))
+        textpos = text.get_rect(centerx=self.width/2, centery=190)
+
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        while 1:
+            event = pygame.event.wait()
+            if event.type == pygame.KEYDOWN:
+                if event.key == K_ESCAPE:
+                    sys.exit()
+                if event.key == K_SPACE:
+                    break # end pause
+
+        text.fill(BLACK)
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
     def setup(self):
         # Load objects and sprites
         self.player_one = Player()
@@ -143,6 +179,42 @@ class Main:
 
         # repeat keystrokes when held down
         pygame.key.set_repeat(30,30)
+
+    def countdown(self):
+        # this function kinda sucks
+
+        font = pygame.font.Font(None, 72)
+        text = font.render("3", 1, (255, 255, 255))
+        textpos = text.get_rect(centerx=self.width/2, centery=190)
+
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        time.sleep(0.5)
+
+        text.fill(BLACK)
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        text = font.render("2", 1, (255, 255, 255))
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        time.sleep(0.5)
+
+        text.fill(BLACK)
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        text = font.render("1", 1, (255, 255, 255))
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
+
+        time.sleep(0.5)
+
+        text.fill(BLACK)
+        self.screen.blit(text, textpos)
+        pygame.display.flip()
 
 
 class Player(pygame.sprite.Sprite):
