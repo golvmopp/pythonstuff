@@ -5,7 +5,6 @@ pause menu
 exit button in start-menu
 options? like speed
 split up shit in different files
-make ball more pretty
 """
 
 
@@ -136,7 +135,7 @@ class Main:
         # can't pause if just unpaused #fullosning
         if sincepause > 0:
             return
-        sincepause = 60
+        sincepause = 30
 
         font = pygame.font.Font(None, 72)
         text = font.render("PAUSED", 1, (255, 255, 255))
@@ -223,6 +222,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.spritepath = os.path.join('img', 'player.png')
         self.image = pygame.image.load(self.spritepath).convert()
+        self.image = pygame.transform.scale(self.image, (10, 40))
         self.rect = self.image.get_rect()
         self.speed = 4
         self.score = 0
@@ -240,6 +240,7 @@ class Ball(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.spritepath = os.path.join('img', 'ball.png')
         self.image = pygame.image.load(self.spritepath).convert()
+        self.image = pygame.transform.scale(self.image, (20, 20))
         self.rect = self.image.get_rect()
         self.x_speed, self.y_speed = speed
 
