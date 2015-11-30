@@ -1,7 +1,7 @@
 """
 To do:
 improve countdown
-pause menu
+improve pause menu
 exit button in start-menu
 options? like speed
 split up shit in different files
