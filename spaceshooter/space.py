@@ -1,13 +1,15 @@
 import sys, os
 import pygame
 from pygame.locals import *
+from classes import *
 
 
-class Ship(pygame.sprite.Sprite):
-	pass
+class Main:
 
-class Enemy(pygame.sprite.Sprite):
-	pass
+	def __init__(self):
+		pygame.init()
+		self.width, self.height = 640, 480
+		self.screen = pygame.display.set_mode(self.width, self.height)
 
-class Ammo(pygame.sprite.Sprite):
-	pass
+	def game(self):
+		
