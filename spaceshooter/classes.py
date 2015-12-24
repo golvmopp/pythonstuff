@@ -6,7 +6,7 @@ class Ship(pygame.sprite.Sprite):
 	def __init__(self):
 		# fix sprites and rects and stuff
 		self.health = 50
-		self.speed = 10
+		self.speed = 5
 		self.rect = pygame.Rect(300, 850, 15, 15)
 
 	def move(self, dir):

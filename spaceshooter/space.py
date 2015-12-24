@@ -102,7 +102,9 @@ class Main:
 
             pygame.draw.rect(self.screen, (255, 255, 255), self.player.rect)
             pygame.display.flip()
+
 RIGHT = DOWN = 1
 LEFT = UP = -1
+
 if __name__ == "__main__":
     Main().game()
